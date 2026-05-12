@@ -1,0 +1,81 @@
+{
+  "nav": {
+    "dashboard": "Paneli",
+    "courses": "Kurset",
+    "assignments": "Detyrat",
+    "grades": "Notat",
+    "students": "Studentët",
+    "admin": "Admin",
+    "settings": "Cilësimet",
+    "logout": "Dilni"
+  },
+  "auth": {
+    "login": "Hyrje",
+    "register": "Krijo llogari",
+    "email": "Email",
+    "password": "Fjalëkalim",
+    "fullName": "Emri i plotë",
+    "forgotPassword": "Keni harruar fjalëkalimin?",
+    "noAccount": "Nuk keni llogari?",
+    "hasAccount": "Keni llogari?"
+  },
+  "course": {
+    "create": "Krijo kurs",
+    "title": "Titulli",
+    "description": "Përshkrimi",
+    "coverImage": "Imazhi i kursit",
+    "publish": "Dërgo për rishikim",
+    "published": "Publikuar",
+    "draft": "Draft",
+    "pending": "Në pritje",
+    "enroll": "Regjistrohu",
+    "continue": "Vazhdo të mësosh",
+    "modules": "Modulet",
+    "lessons": "Mësimet",
+    "addModule": "Shto modul",
+    "addLesson": "Shto mësim"
+  },
+  "lesson": {
+    "markComplete": "Shëno si të përfunduar",
+    "completed": "Përfunduar",
+    "locked": "I bllokuar",
+    "next": "Mësimi tjetër",
+    "previous": "Mëparshmi"
+  },
+  "assignment": {
+    "submit": "Dorëzo",
+    "submitted": "Dorëzuar",
+    "graded": "Vlerësuar",
+    "late": "Me vonesë",
+    "due": "Afati",
+    "uploadFile": "Ngarko skedar",
+    "feedback": "Komente"
+  },
+  "quiz": {
+    "start": "Fillo kuizin",
+    "submit": "Dërgo përgjigjet",
+    "passed": "Kaloi!",
+    "failed": "Nuk kaloi",
+    "score": "Rezultati",
+    "correct": "Saktë",
+    "incorrect": "Gabim"
+  },
+  "admin": {
+    "users": "Përdoruesit",
+    "approveQueue": "Radhë miratimi",
+    "approve": "Miro",
+    "reject": "Kërko ndryshime",
+    "stats": "Statistika"
+  },
+  "common": {
+    "save": "Ruaj",
+    "cancel": "Anulo",
+    "delete": "Fshi",
+    "edit": "Ndrysho",
+    "loading": "Duke ngarkuar...",
+    "error": "Diçka shkoi gabim",
+    "noData": "Asnjë të dhënë",
+    "search": "Kërko",
+    "export": "Eksporto CSV"
+  }
+}

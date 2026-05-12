@@ -1,0 +1,81 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "courses": "Courses",
+    "assignments": "Assignments",
+    "grades": "Grades",
+    "students": "Students",
+    "admin": "Admin",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+  "auth": {
+    "login": "Sign In",
+    "register": "Create Account",
+    "email": "Email",
+    "password": "Password",
+    "fullName": "Full Name",
+    "forgotPassword": "Forgot password?",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?"
+  },
+  "course": {
+    "create": "Create Course",
+    "title": "Title",
+    "description": "Description",
+    "coverImage": "Cover Image",
+    "publish": "Submit for Review",
+    "published": "Published",
+    "draft": "Draft",
+    "pending": "Pending Review",
+    "enroll": "Enroll Now",
+    "continue": "Continue Learning",
+    "modules": "Modules",
+    "lessons": "Lessons",
+    "addModule": "Add Module",
+    "addLesson": "Add Lesson"
+  },
+  "lesson": {
+    "markComplete": "Mark as Complete",
+    "completed": "Completed",
+    "locked": "Locked",
+    "next": "Next Lesson",
+    "previous": "Previous"
+  },
+  "assignment": {
+    "submit": "Submit",
+    "submitted": "Submitted",
+    "graded": "Graded",
+    "late": "Late",
+    "due": "Due",
+    "uploadFile": "Upload File",
+    "feedback": "Feedback"
+  },
+  "quiz": {
+    "start": "Start Quiz",
+    "submit": "Submit Answers",
+    "passed": "Passed!",
+    "failed": "Not passed",
+    "score": "Score",
+    "correct": "Correct",
+    "incorrect": "Incorrect"
+  },
+  "admin": {
+    "users": "Users",
+    "approveQueue": "Approval Queue",
+    "approve": "Approve",
+    "reject": "Request Changes",
+    "stats": "System Stats"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "noData": "No data found",
+    "search": "Search",
+    "export": "Export CSV"
+  }
+}
