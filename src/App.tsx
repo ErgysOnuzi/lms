@@ -7,6 +7,32 @@ import { ThemeProvider } from '@/contexts/ThemeContext'
 import { ProtectedRoute } from '@/components/ProtectedRoute'
 import { DashboardLayout } from '@/components/layout/DashboardLayout'
 import { PageSpinner } from '@/components/ui/Spinner'
+import { supabaseMisconfigured } from '@/lib/supabaseClient'
+import { GraduationCap } from 'lucide-react'
+
+function MisconfiguredScreen() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-50 to-slate-100 p-6">
+      <div className="w-full max-w-md rounded-2xl bg-white p-10 shadow-xl text-center space-y-5">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-600">
+          <GraduationCap className="h-9 w-9 text-white" />
+        </div>
+        <h1 className="text-2xl font-bold text-slate-900">EduCore LMS</h1>
+        <p className="text-slate-500 text-sm leading-relaxed">
+          Supabase is not connected yet. Add the two environment variables to
+          your deployment and redeploy.
+        </p>
+        <div className="rounded-xl bg-slate-50 p-4 text-left space-y-2 font-mono text-xs text-slate-700">
+          <p><span className="text-indigo-600">VITE_SUPABASE_URL</span>=https://your-project.supabase.co</p>
+          <p><span className="text-indigo-600">VITE_SUPABASE_ANON_KEY</span>=eyJ…</p>
+        </div>
+        <p className="text-xs text-slate-400">
+          Find both values in your Supabase dashboard → Project Settings → API
+        </p>
+      </div>
+    </div>
+  )
+}
 
 // ── Auth ──────────────────────────────────────────────────────────────────────
 const Login    = lazy(() => import('@/pages/auth/Login'))
@@ -34,6 +60,8 @@ const CourseApproval = lazy(() => import('@/pages/admin/CourseApproval'))
 const SystemSettings = lazy(() => import('@/pages/admin/SystemSettings'))
 
 export default function App() {
+  if (supabaseMisconfigured) return <MisconfiguredScreen />
+
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
