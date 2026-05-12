@@ -79,7 +79,9 @@ export default function App() {
       <AuthProvider>
         <ThemeProvider>
           <BrowserRouter>
-            <Suspense fallback={<PageSpinner />}>
+            {/* fallback=null: DashboardLayout has its own inner Suspense so only
+                the content area spins — no more full-page white flash on navigation */}
+            <Suspense fallback={null}>
               <Routes>
                 {/* ── Public ─────────────────────────────────────────────── */}
                 <Route path="/login"    element={<Login />} />
