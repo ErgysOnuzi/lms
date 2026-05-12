@@ -5,9 +5,11 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { GraduationCap } from 'lucide-react'
 import { supabase } from '@/lib/supabaseClient'
+import { roleHome } from '@/lib/roleHome'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { useTranslation } from 'react-i18next'
+import type { UserRole } from '@/types/database'
 
 const schema = z.object({
   email: z.string().email('Invalid email'),
@@ -26,12 +28,20 @@ export default function Login() {
 
   async function onSubmit({ email, password }: FormValues) {
     setError('')
-    const { error: authError } = await supabase.auth.signInWithPassword({ email, password })
+    const { data, error: authError } = await supabase.auth.signInWithPassword({ email, password })
     if (authError) {
       setError(authError.message)
       return
     }
-    navigate('/dashboard')
+
+    // Fetch the profile to get the role so we can redirect correctly
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', data.user.id)
+      .single()
+
+    navigate(roleHome((profile?.role as UserRole) ?? null), { replace: true })
   }
 
   return (

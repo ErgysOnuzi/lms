@@ -8,7 +8,18 @@ import { ProtectedRoute } from '@/components/ProtectedRoute'
 import { DashboardLayout } from '@/components/layout/DashboardLayout'
 import { PageSpinner } from '@/components/ui/Spinner'
 import { supabaseMisconfigured } from '@/lib/supabaseClient'
+import { roleHome } from '@/lib/roleHome'
+import { useAuth } from '@/contexts/AuthContext'
 import { GraduationCap } from 'lucide-react'
+
+// Redirects to the correct home for the authenticated user's role.
+// Used for "/" and "*" so every role lands on its own dashboard.
+function RoleRedirect() {
+  const { session, role, loading, profile } = useAuth()
+  if (loading || (session && !profile)) return <PageSpinner />
+  if (!session) return <Navigate to="/login" replace />
+  return <Navigate to={roleHome(role)} replace />
+}
 
 function MisconfiguredScreen() {
   return (
@@ -117,9 +128,9 @@ export default function App() {
                   </Route>
                 </Route>
 
-                {/* ── Fallback ───────────────────────────────────────────── */}
-                <Route path="/" element={<Navigate to="/dashboard" replace />} />
-                <Route path="*" element={<Navigate to="/dashboard" replace />} />
+                {/* ── Fallback — role-aware redirect ─────────────────────── */}
+                <Route path="/" element={<RoleRedirect />} />
+                <Route path="*" element={<RoleRedirect />} />
               </Routes>
             </Suspense>
           </BrowserRouter>

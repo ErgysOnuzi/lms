@@ -5,9 +5,11 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { GraduationCap } from 'lucide-react'
 import { supabase } from '@/lib/supabaseClient'
+import { roleHome } from '@/lib/roleHome'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { useTranslation } from 'react-i18next'
+import type { UserRole } from '@/types/database'
 
 const schema = z.object({
   full_name: z.string().min(2, 'Min 2 characters'),
@@ -29,12 +31,20 @@ export default function Register() {
 
   async function onSubmit({ email, password, full_name, role }: FormValues) {
     setError('')
-    const { error: authError } = await supabase.auth.signUp({
+    const { data, error: authError } = await supabase.auth.signUp({
       email, password,
       options: { data: { full_name, role } },
     })
     if (authError) { setError(authError.message); return }
-    navigate('/dashboard')
+
+    // After sign-up the trigger creates the profile; update role column
+    // (the trigger sets role from raw_user_meta_data if present, but we
+    //  set it explicitly to be safe)
+    if (data.user) {
+      await supabase.from('profiles').update({ role }).eq('id', data.user.id)
+    }
+
+    navigate(roleHome(role as UserRole), { replace: true })
   }
 
   return (
