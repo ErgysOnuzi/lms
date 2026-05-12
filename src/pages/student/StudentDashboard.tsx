@@ -117,7 +117,7 @@ export default function StudentDashboard() {
                 <p className="font-medium text-slate-700">No courses yet</p>
                 <p className="text-sm text-slate-500">Browse the catalog and enroll in a course</p>
               </div>
-              <Link to="/courses"><Button>Browse Courses</Button></Link>
+              <Link to="/courses"><Button>Browse Catalog</Button></Link>
             </CardBody>
           </Card>
         ) : (

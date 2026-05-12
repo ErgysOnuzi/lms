@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import {
   LayoutDashboard, BookOpen, ClipboardList, BarChart2,
-  Users, Settings, Shield, GraduationCap, LogOut, Star,
+  Users, Settings, Shield, GraduationCap, LogOut, Star, Library,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/contexts/AuthContext'
@@ -12,6 +12,7 @@ interface NavItem { to: string; label: string; icon: React.ElementType }
 const studentNav: NavItem[] = [
   { to: '/dashboard',    label: 'nav.dashboard',   icon: LayoutDashboard },
   { to: '/my-courses',   label: 'nav.courses',      icon: BookOpen },
+  { to: '/courses',      label: 'Browse Catalog',   icon: Library },
   { to: '/assignments',  label: 'nav.assignments',  icon: ClipboardList },
   { to: '/certificates', label: 'Certificates',     icon: Star },
 ]

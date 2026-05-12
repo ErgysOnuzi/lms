@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { GraduationCap } from 'lucide-react'
+import { GraduationCap, MailCheck } from 'lucide-react'
 import { supabase } from '@/lib/supabaseClient'
 import { roleHome } from '@/lib/roleHome'
 import { Button } from '@/components/ui/Button'
@@ -23,6 +23,7 @@ export default function Register() {
   const navigate = useNavigate()
   const { t } = useTranslation()
   const [error, setError] = useState('')
+  const [confirmEmail, setConfirmEmail] = useState(false)
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -32,19 +33,44 @@ export default function Register() {
   async function onSubmit({ email, password, full_name, role }: FormValues) {
     setError('')
     const { data, error: authError } = await supabase.auth.signUp({
-      email, password,
+      email,
+      password,
+      // Role is read by the handle_new_user trigger from raw_user_meta_data
+      // and written into profiles.role at creation time — no separate update needed.
       options: { data: { full_name, role } },
     })
+
     if (authError) { setError(authError.message); return }
 
-    // After sign-up the trigger creates the profile; update role column
-    // (the trigger sets role from raw_user_meta_data if present, but we
-    //  set it explicitly to be safe)
-    if (data.user) {
-      await supabase.from('profiles').update({ role }).eq('id', data.user.id)
+    if (data.session) {
+      // Email confirmation is disabled — session is available immediately.
+      navigate(roleHome(role as UserRole), { replace: true })
+    } else {
+      // Email confirmation is enabled — ask the user to check their inbox.
+      setConfirmEmail(true)
     }
+  }
 
-    navigate(roleHome(role as UserRole), { replace: true })
+  if (confirmEmail) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-50 to-slate-100 p-4">
+        <div className="w-full max-w-sm rounded-2xl bg-white p-10 shadow-lg text-center space-y-4">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-indigo-100">
+            <MailCheck className="h-7 w-7 text-indigo-600" />
+          </div>
+          <h2 className="text-xl font-bold text-slate-900">Check your email</h2>
+          <p className="text-sm text-slate-500">
+            We sent a confirmation link to your inbox. Click it to activate your account, then come back to sign in.
+          </p>
+          <p className="text-xs text-slate-400">
+            Tip: if you're the admin, you can disable email confirmation in the Supabase dashboard under <strong>Authentication → Providers → Email</strong> for instant access.
+          </p>
+          <Link to="/login" className="block text-sm font-medium text-indigo-600 hover:underline">
+            Back to sign in
+          </Link>
+        </div>
+      </div>
+    )
   }
 
   return (

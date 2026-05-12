@@ -52,6 +52,7 @@ const Register = lazy(() => import('@/pages/auth/Register'))
 // ── Student ───────────────────────────────────────────────────────────────────
 const StudentDashboard = lazy(() => import('@/pages/student/StudentDashboard'))
 const MyCourses        = lazy(() => import('@/pages/student/MyCourses'))
+const BrowseCatalog    = lazy(() => import('@/pages/student/BrowseCatalog'))
 const CoursePlayer     = lazy(() => import('@/pages/student/CoursePlayer'))
 const AssignmentsList  = lazy(() => import('@/pages/student/AssignmentsList'))
 const AssignmentView   = lazy(() => import('@/pages/student/AssignmentView'))
@@ -94,6 +95,7 @@ export default function App() {
                   <Route element={<DashboardLayout />}>
                     <Route path="/dashboard"               element={<StudentDashboard />} />
                     <Route path="/my-courses"              element={<MyCourses />} />
+                    <Route path="/courses"                 element={<BrowseCatalog />} />
                     <Route path="/assignments"             element={<AssignmentsList />} />
                     <Route path="/assignments/:assignmentId" element={<AssignmentView />} />
                     <Route path="/certificates"            element={<Certificates />} />
