@@ -71,3 +71,11 @@ export default defineConfig([
   },
 ])
 ```
+
+## Validation and deployment
+
+GitHub Actions runs the linter and production TypeScript/Vite build for every
+push and pull request using Node.js 24. The hosting controller has a signed
+GitHub webhook for automatic deployments of `master` to `https://lms.ergys.dev`.
+Deployment history, image rollback, and database backups are available in the
+private hosting console at `https://vercel.ergys.dev`.
