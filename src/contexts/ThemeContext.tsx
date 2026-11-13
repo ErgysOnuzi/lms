@@ -18,7 +18,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [settings, setSettings] = useState<OrganizationSettings | null>(null)
 
   useEffect(() => {
-    supabase.from('organization_settings').select('*').limit(1).single()
+    supabase.from('organization_settings').select('*').limit(1).maybeSingle()
       .then(({ data }) => {
         if (data) {
           setSettings(data)

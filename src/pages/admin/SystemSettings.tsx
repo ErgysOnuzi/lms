@@ -15,7 +15,7 @@ export default function SystemSettings() {
   const { data } = useQuery({
     queryKey: ['org-settings'],
     queryFn: async () => {
-      const { data } = await supabase.from('organization_settings').select('*').limit(1).single()
+      const { data } = await supabase.from('organization_settings').select('*').limit(1).maybeSingle()
       return data as OrganizationSettings | null
     },
   })
