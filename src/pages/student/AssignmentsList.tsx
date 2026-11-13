@@ -26,6 +26,57 @@ interface AssignmentRow {
   submission: { status: SubmissionStatus } | null
 }
 
+function AssignmentSection({
+  title,
+  items,
+  emptyMsg,
+  now,
+}: {
+  title: string
+  items: AssignmentRow[]
+  emptyMsg: string
+  now: Date
+}) {
+  return (
+    <div className="space-y-3">
+      <h2 className="text-base font-semibold text-slate-700">{title} <span className="text-slate-400 font-normal">({items.length})</span></h2>
+      {items.length === 0 ? (
+        <p className="text-sm text-slate-400">{emptyMsg}</p>
+      ) : items.map(a => {
+        const status = a.submission?.status ?? 'not_started'
+        const { variant, label, icon: Icon } = statusConfig[status]
+        const isOverdueItem = a.due_date && new Date(a.due_date) < now
+
+        return (
+          <Link key={a.id} to={`/assignments/${a.id}`}>
+            <Card className="hover:shadow-md transition-shadow cursor-pointer">
+              <CardBody className="flex items-center gap-4 py-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
+                  <ClipboardList size={20} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium text-slate-900 truncate">{a.title}</p>
+                  <p className="text-xs text-slate-500">{a.course?.title}</p>
+                </div>
+                <div className="flex flex-col items-end gap-1 shrink-0">
+                  <Badge variant={variant}>
+                    <Icon size={11} className="mr-1" />{label}
+                  </Badge>
+                  {a.due_date && (
+                    <span className={`text-xs ${isOverdueItem ? 'text-red-500' : 'text-slate-400'}`}>
+                      {isOverdueItem ? 'Overdue · ' : 'Due · '}{formatDate(a.due_date)}
+                    </span>
+                  )}
+                </div>
+              </CardBody>
+            </Card>
+          </Link>
+        )
+      })}
+    </div>
+  )
+}
+
 export default function AssignmentsList() {
   const { profile } = useAuth()
 
@@ -77,47 +128,6 @@ export default function AssignmentsList() {
   const upcoming  = (rows ?? []).filter(a => !a.due_date || new Date(a.due_date) >= now)
   const overdue   = (rows ?? []).filter(a => a.due_date && new Date(a.due_date) < now && (!a.submission || a.submission.status === 'not_started'))
 
-  function Section({ title, items, emptyMsg }: { title: string; items: AssignmentRow[]; emptyMsg: string }) {
-    return (
-      <div className="space-y-3">
-        <h2 className="text-base font-semibold text-slate-700">{title} <span className="text-slate-400 font-normal">({items.length})</span></h2>
-        {items.length === 0 ? (
-          <p className="text-sm text-slate-400">{emptyMsg}</p>
-        ) : items.map(a => {
-          const status = a.submission?.status ?? 'not_started'
-          const { variant, label, icon: Icon } = statusConfig[status]
-          const isOverdueItem = a.due_date && new Date(a.due_date) < now
-
-          return (
-            <Link key={a.id} to={`/assignments/${a.id}`}>
-              <Card className="hover:shadow-md transition-shadow cursor-pointer">
-                <CardBody className="flex items-center gap-4 py-3">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
-                    <ClipboardList size={20} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium text-slate-900 truncate">{a.title}</p>
-                    <p className="text-xs text-slate-500">{a.course?.title}</p>
-                  </div>
-                  <div className="flex flex-col items-end gap-1 shrink-0">
-                    <Badge variant={variant}>
-                      <Icon size={11} className="mr-1" />{label}
-                    </Badge>
-                    {a.due_date && (
-                      <span className={`text-xs ${isOverdueItem ? 'text-red-500' : 'text-slate-400'}`}>
-                        {isOverdueItem ? 'Overdue · ' : 'Due · '}{formatDate(a.due_date)}
-                      </span>
-                    )}
-                  </div>
-                </CardBody>
-              </Card>
-            </Link>
-          )
-        })}
-      </div>
-    )
-  }
-
   return (
     <div className="space-y-8">
       <h1 className="text-2xl font-bold text-slate-900">Assignments</h1>
@@ -134,8 +144,8 @@ export default function AssignmentsList() {
         </Card>
       ) : (
         <>
-          {overdue.length > 0 && <Section title="Overdue" items={overdue} emptyMsg="" />}
-          <Section title="Upcoming & Active" items={upcoming} emptyMsg="No upcoming assignments" />
+          {overdue.length > 0 && <AssignmentSection title="Overdue" items={overdue} emptyMsg="" now={now} />}
+          <AssignmentSection title="Upcoming & Active" items={upcoming} emptyMsg="No upcoming assignments" now={now} />
         </>
       )}
     </div>

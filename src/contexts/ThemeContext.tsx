@@ -9,6 +9,11 @@ interface ThemeContextValue {
 
 const ThemeContext = createContext<ThemeContextValue>({ settings: null, updateSettings: () => {} })
 
+function applyTheme(settings: OrganizationSettings) {
+  document.documentElement.style.setProperty('--primary', settings.primary_color)
+  document.documentElement.style.setProperty('--accent', settings.accent_color)
+}
+
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [settings, setSettings] = useState<OrganizationSettings | null>(null)
 
@@ -21,11 +26,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
         }
       })
   }, [])
-
-  function applyTheme(s: OrganizationSettings) {
-    document.documentElement.style.setProperty('--primary', s.primary_color)
-    document.documentElement.style.setProperty('--accent', s.accent_color)
-  }
 
   function updateSettings(patch: Partial<OrganizationSettings>) {
     setSettings(prev => {
@@ -42,6 +42,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useTheme() {
   return useContext(ThemeContext)
 }

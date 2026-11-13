@@ -68,6 +68,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   )
 }
 
+// Context hooks live beside their providers throughout this codebase.
+// eslint-disable-next-line react-refresh/only-export-components
 export function useAuth() {
   return useContext(AuthContext)
 }
